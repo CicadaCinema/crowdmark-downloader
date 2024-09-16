@@ -7,7 +7,7 @@ import os
 
 def main():
     driver = webdriver.Chrome()
-    driver.get("https://app.crowdmark.com/sign-in/waterloo")
+    driver.get("https://app.crowdmark.com/sign-in")
 
     input("Press Enter after logging in: ")
 
