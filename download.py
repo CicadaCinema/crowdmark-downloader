@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
 import os
+from glob import glob
 import shutil
 
 import requests
@@ -42,7 +43,7 @@ def main():
     print("Finished downloading in: ", elapsed_time, " seconds!")
     driver.close()
 
-    post_process(working_directory)
+    post_process(working_directory, output_directory)
 
     exit(0)
 
@@ -200,10 +201,14 @@ def remove_elements_by_css_selector(driver, selector, url):
 def page_name(url):
     return url.rsplit('/', 1)[-1]
 
-def post_process(working_directory):
+def post_process(working_directory, output_directory):
     srcPath = os.path.join(working_directory, "crowdmark-08e51e713bd0dd31059ff3d65c1b91b4.css")
     destPath = os.path.join(working_directory, "output", "stylesheet.css")
     shutil.copy(srcPath, destPath)
+
+    # Copy fonts to output directory.
+    for fontSrcPath in glob(os.path.join(working_directory, "fonts", "*")):
+        shutil.copy(fontSrcPath, output_directory)
 
 
 if __name__ == '__main__':
