@@ -5,6 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import StaleElementReferenceException
 import os
+import shutil
 
 import requests
 from requests.adapters import HTTPAdapter
@@ -40,6 +41,9 @@ def main():
     elapsed_time = end_time - start_time
     print("Finished downloading in: ", elapsed_time, " seconds!")
     driver.close()
+
+    post_process(working_directory)
+
     exit(0)
 
 
@@ -195,6 +199,11 @@ def remove_elements_by_css_selector(driver, selector, url):
 
 def page_name(url):
     return url.rsplit('/', 1)[-1]
+
+def post_process(working_directory):
+    srcPath = os.path.join(working_directory, "crowdmark-08e51e713bd0dd31059ff3d65c1b91b4.css")
+    destPath = os.path.join(working_directory, "output", "stylesheet.css")
+    shutil.copy(srcPath, destPath)
 
 
 if __name__ == '__main__':

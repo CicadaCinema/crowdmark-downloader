@@ -1,5 +1,4 @@
 #!/bin/bash
-cp -i ./crowdmark-08e51e713bd0dd31059ff3d65c1b91b4.css ./output/stylesheet.css
 
 # CSS cleanup
 sed -i 's/padding-left:305px;//' ./output/stylesheet.css
