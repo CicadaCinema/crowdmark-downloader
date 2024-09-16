@@ -210,6 +210,27 @@ def post_process(working_directory, output_directory):
     for fontSrcPath in glob(os.path.join(working_directory, "fonts", "*")):
         shutil.copy(fontSrcPath, output_directory)
 
+    # Perform some text replacements on every html file in the output directory.
+    for savedHtmlFilePath in glob(os.path.join(output_directory, "**", "*.html"), recursive=True):
+        with open(savedHtmlFilePath, "r") as file:
+            htmlContent = file.read()
+
+        # Replacements required to load local fonts instead of remote ones.
+        replacementPairs = [
+            ['?V=2.7.5', ''],
+            ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/fonts/HTML-CSS/TeX/woff', '..'],
+            ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/fonts/HTML-CSS/TeX/otf', '..'],
+        ]
+        for pair in replacementPairs:
+            assert pair[0] in htmlContent
+            htmlContent = htmlContent.replace(pair[0], pair[1])
+
+        # For some reason this attribute sometimes appears, but typically only when the assessment is an exam, not a homework.
+        htmlContent = htmlContent.replace('<img crossorigin="anonymous"', '<img')
+
+        with open(savedHtmlFilePath, "w") as file:
+            file.write(htmlContent)
+
 
 if __name__ == '__main__':
     main()
