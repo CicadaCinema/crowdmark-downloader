@@ -44,4 +44,8 @@ small task. Hopefully you will also find this code useful!
 
 Oh, and also...........
 
+### Troubleshooting
+
+In case of an unexpected error (maybe Crowdmark has been updated), you may find it helpful to use [pdb](https://docs.python.org/3/library/pdb.html) to inspect the state of the downloader interactively. To use it, insert `import pdb; pdb.set_trace()` at the location where you would like to break into the debugger and run the downloader as usual.
+
 # Congrats on Graduating!
