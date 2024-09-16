@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# CSS cleanup
-sed -i 's/padding-left:305px;//' ./output/stylesheet.css
-
 # Change the font URLs to local references.
 cp -i ./fonts/* ./output/
 find ./output/ -type f -iname "*.html" -exec sed -i 's/?V=2\.7\.5//g' {} +
