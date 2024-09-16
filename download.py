@@ -203,7 +203,7 @@ def page_name(url):
 
 def post_process(working_directory, output_directory):
     srcPath = os.path.join(working_directory, "crowdmark-08e51e713bd0dd31059ff3d65c1b91b4.css")
-    destPath = os.path.join(working_directory, "output", "stylesheet.css")
+    destPath = os.path.join(output_directory, "stylesheet.css")
     shutil.copy(srcPath, destPath)
 
     # Copy fonts to output directory.
