@@ -93,15 +93,15 @@ def download_assessment(driver, course_output_directory, url, session):
     time.sleep(5)  # wait for page to load. For some reason driver.get doesn't wait for the entire page to load
     assessment_name = page_name(url)
 
-    # Remove extraneous elements. These are elements which will never be useful in an offline archive of the assessment page.
-    for selector in ["script", "link", ".main-sidebar", ".main-topbar", ".mobile-topbar", ".score-view__actions"]:
-        remove_elements_by_css_selector(driver, selector, url)
-
     # Show class score distribution (if it is available).
     buttons_to_show_scores = driver.find_elements(By.CSS_SELECTOR, "button.score-summary__score-toggle")
     assert len(buttons_to_show_scores) in [0, 1]
     if len(buttons_to_show_scores) == 1:
         buttons_to_show_scores[0].click()
+
+    # Remove extraneous elements. These are elements which will never be useful in an offline archive of the assessment page.
+    for selector in ["script", "link", ".main-sidebar", ".main-topbar", ".mobile-topbar", ".score-view__actions"]:
+        remove_elements_by_css_selector(driver, selector, url)
 
     # Replace canvas element by equivalent image.
     # This canvas element only exists on assessments where the 'Class scores distribution' is shown.
