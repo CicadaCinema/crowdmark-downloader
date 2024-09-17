@@ -216,18 +216,17 @@ def post_process(working_directory, output_directory):
         with open(savedHtmlFilePath, "r") as file:
             htmlContent = file.read()
 
-        # Replacements required to load local fonts instead of remote ones.
         replacementPairs = [
+            # Replacements required to load local fonts instead of remote ones.
             ['?V=2.7.5', ''],
             ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/fonts/HTML-CSS/TeX/woff', '..'],
             ['https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/fonts/HTML-CSS/TeX/otf', '..'],
+            # For some reason this attribute sometimes appears, but typically only when the assessment is an exam, not a homework.
+            ['<img crossorigin="anonymous"', '<img'],
         ]
-        for pair in replacementPairs:
-            assert pair[0] in htmlContent
-            htmlContent = htmlContent.replace(pair[0], pair[1])
 
-        # For some reason this attribute sometimes appears, but typically only when the assessment is an exam, not a homework.
-        htmlContent = htmlContent.replace('<img crossorigin="anonymous"', '<img')
+        for pair in replacementPairs:
+            htmlContent = htmlContent.replace(pair[0], pair[1])
 
         with open(savedHtmlFilePath, "w") as file:
             file.write(htmlContent)
