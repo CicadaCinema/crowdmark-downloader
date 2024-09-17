@@ -100,7 +100,7 @@ def download_assessment(driver, course_output_directory, url, session):
         buttons_to_show_scores[0].click()
 
     # Remove extraneous elements. These are elements which will never be useful in an offline archive of the assessment page.
-    for selector in ["script", "link", ".main-sidebar", ".main-topbar", ".mobile-topbar", ".score-view__actions"]:
+    for selector in ["script", "link", ".main-sidebar", ".main-topbar", ".mobile-topbar", ".score-view__actions", ".score-summary__graph-wrap"]:
         remove_elements_by_css_selector(driver, selector, url)
 
     # Replace canvas element by equivalent image.
