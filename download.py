@@ -136,9 +136,7 @@ def download_assessment(driver, course_output_directory, url, session):
     for a in driver.find_elements(By.TAG_NAME, "a"):
         href = a.get_attribute("href")
         if bool(href) and href.startswith("https://app.crowdmark.com/text-attachments/"):
-            name = driver.execute_script("return arguments[0].innerHTML", a)
-            assert name.endswith(".pdf")
-            attachments.append((href, name))
+            attachments.append(href)
 
     # Grab the page source as a string.
     # From now on we will only manipulate this string.
@@ -167,17 +165,20 @@ def download_assessment(driver, course_output_directory, url, session):
         file.write(html)
 
     # As a last step, download all attachments.
-    for attachment in attachments:
-        download_attachment(driver, course_output_directory, attachment[0], attachment[1], session)
+    for url in attachments:
+        download_attachment(driver, course_output_directory, url, session)
 
-def download_attachment(driver, course_output_directory, url, filename, session):
+def download_attachment(driver, course_output_directory, url, session):
     driver.get(url)
     time.sleep(5) # wait to download attachment
 
-    download_buttons = driver.find_elements(By.CSS_SELECTOR, "a.button")
-    assert len(download_buttons) == 1
+    download_links = [e for e in driver.find_elements(By.TAG_NAME, "a") if e.get_attribute("href") is not None and "usercontent.crowdmark.com" in e.get_attribute("href") and driver.execute_script("return arguments[0].innerHTML", e) != "Download"]
+    assert len(download_links) == 1
 
-    resp = session.get(download_buttons[0].get_attribute("href"), timeout=180)
+    download_url = download_links[0].get_attribute("href")
+    filename = driver.execute_script("return arguments[0].innerHTML", download_links[0])
+
+    resp = session.get(download_url, timeout=180)
     assert resp.status_code == 200
 
     with open(f"{course_output_directory}/{filename}", 'xb') as f:
