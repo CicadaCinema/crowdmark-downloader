@@ -103,6 +103,13 @@ def download_assessment(driver, course_output_directory, url, session):
     for selector in ["script", "link", ".main-sidebar", ".main-topbar", ".mobile-topbar", ".score-view__actions", ".score-summary__graph-wrap"]:
         remove_elements_by_css_selector(driver, selector, url)
 
+    # Remove the iframe. We could have done this above, but removing all iframe elements is a little bit dangerous if the site design changes.
+    # So we do it here instead with a few assertions to fail fast in case of unexpected behaviour.
+    iframes = driver.find_elements(By.TAG_NAME, "iframe")
+    assert iframes[0].get_attribute("src").startswith("https://js.stripe.com")
+    driver.execute_script('arguments[0].outerHTML="";', iframes[0])
+    assert len(driver.find_elements(By.TAG_NAME, "iframe")) == 0
+
     # Replace canvas element by equivalent image.
     # This canvas element only exists on assessments where the 'Class scores distribution' is shown.
     canvas_elements = driver.find_elements(By.CSS_SELECTOR, "canvas")
