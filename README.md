@@ -18,6 +18,10 @@ env, then install it (so you can easily delete all the dependencies when you're 
 2) `source venv/bin/activate`
 3) `pip3 install -r requirements.txt`
 
+This link might help you if you come across a `The chromedriver version cannot be discovered` error:
+
+https://stackoverflow.com/questions/77401357/the-chromedriver-version-cannot-be-discovered-selenium-python
+
 ### Usage
 
 1) Run the script using this command `python3 download.py`.

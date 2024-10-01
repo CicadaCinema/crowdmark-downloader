@@ -55,7 +55,7 @@ def download_assessments_for_ith_page(driver, output_directory, starting_page, s
         driver.get(f"https://app.crowdmark.com/student/courses?page={page_num}")
         time.sleep(3)  # wait for page to load. For some reason driver.get doesn't wait for the entire page to load
 
-        course_list = driver.find_element(By.CLASS_NAME, "student-dashboard__course-list")
+        course_list = driver.find_element(By.CLASS_NAME, "courses__course-list")
 
         a_tags = course_list.find_elements(By.TAG_NAME, "a")
 
