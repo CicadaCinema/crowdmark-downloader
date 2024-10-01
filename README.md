@@ -1,6 +1,6 @@
 # IMPORTANT:
 
-- this repo doesn't really work. This PR has code that's closest to working: https://github.com/curtischong/crowdmark-downloader/pull/5
+- this repo doesn't really work (outdated). This PR has code that's closest to working: https://github.com/curtischong/crowdmark-downloader/pull/5
 
 # crowdmark-downloader
 
